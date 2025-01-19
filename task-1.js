@@ -1,11 +1,7 @@
-/* empty css                      */(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const o of t.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&n(o)}).observe(document,{childList:!0,subtree:!0});function l(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function n(e){if(e.ep)return;e.ep=!0;const t=l(e);fetch(e.href,t)}})();//! ======================================== Асинхронність  ========================================
-const i=document.querySelector(".receive-data-btn"),s=document.querySelector(".button-box"),d=c=>{setTimeout(()=>{i.textContent="Nice! Data is downloaded",i.classList.add("disabled"),document.querySelector(".loading-bar").remove()},5e3),s.insertAdjacentHTML("beforeend",`
-        <ul class = 'loading-bar'>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-        `)};i.addEventListener("click",d);
+/* empty css                      */(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))r(t);new MutationObserver(t=>{for(const o of t)if(o.type==="childList")for(const c of o.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&r(c)}).observe(document,{childList:!0,subtree:!0});function n(t){const o={};return t.integrity&&(o.integrity=t.integrity),t.referrerPolicy&&(o.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?o.credentials="include":t.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(t){if(t.ep)return;t.ep=!0;const o=n(t);fetch(t.href,o)}})();const i=document.querySelector(".posts-container"),l=document.querySelector(".get-post-btn");document.querySelector(".post-container");const d=s=>{fetch("https://jsonplaceholder.typicode.com/posts").then(e=>{if(!e.ok)throw new Error(e.status);return e.json()}).then(e=>{const n=[];console.log(e),e.forEach(r=>{n.push(`
+            <div class="post-container">
+                <h2 class="post-title">${r.title}</h2>
+                <p class="post-content">${r.body}</p>
+                <p class="post-id">POST ID:${r.id}</p>
+            </div>`)}),i.insertAdjacentHTML("beforeend",n.join(""))}).catch(e=>{console.log(e)})};l.addEventListener("click",d);const u=s=>{fetch(`https://jsonplaceholder.typicode.com/users/${s}`).then(e=>{if(!e.ok)throw new Error(e.status);return e.json()}).then(e=>{console.log(e.name),console.log(e.email)}).catch(e=>{console.log("Користувача не знайдено")})};u(1);
 //# sourceMappingURL=task-1.js.map
