@@ -7,10 +7,25 @@
     <title>Task 1</title>
     
     <script type="module" crossorigin src="/js-practicing-module-11/task-1.js"></script>
-    <link rel="stylesheet" crossorigin href="/js-practicing-module-11/assets/styles-CxMAmYQ1.css">
+    <link rel="modulepreload" crossorigin href="/js-practicing-module-11/assets/vendor-I1I71QQ2.js">
+    <link rel="stylesheet" crossorigin href="/js-practicing-module-11/assets/vendor-DnveWo0P.css">
+    <link rel="stylesheet" crossorigin href="/js-practicing-module-11/assets/styles-C2vdCNDm.css">
   </head>
   <body>
-    <button class="get-post-btn" type="button">Get posts</button>
+    <div class="input-div">
+      <button class="get-post-btn" type="button">Get posts</button>
+
+      <div>
+        <input class="user-id-input" type="number" placeholder="User id">
+        <button class="get-info-btn" type="button">Get user info</button>
+      </div>
+
+      <div>
+        <input class="post-title" type="text" placeholder="Post title">
+        <input class="post-content" type="number" placeholder="Post content">
+        <button class="create-btn" type="button">Create new post</button>
+      </div>
+    </div>
 
     <div class="posts-container"></div>
   </body>
