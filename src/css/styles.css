@@ -67,8 +67,16 @@ a:hover{
   text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18, 2px 2px 17px rgba(206,89,55,0);
 }
 
+body{
+  background-color: #1a1717;
+}
+
 /* -------------------------- Task 1  -------------------------- */
-.get-post-btn{
+input{
+  display: block;
+}
+
+.get-post-btn, .get-info-btn, .create-btn{
   width: 300px;
   height: 50px;
 
@@ -80,9 +88,7 @@ a:hover{
   font-size: 30px;
   color: #D3d9D4;
 
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 100px;
+  margin-right: 50px;
 
   transition:background-color 250ms linear, color 250ms linear, transform 250ms linear;
 }
@@ -145,5 +151,65 @@ a:hover{
       0 0 20px rgba(205, 93, 225, 0.7),
       0 0 100px rgba(86, 175, 199, 0.7);
   }
+}
+
+.input-div{
+  width: 100%;
+  display: flex;
+  
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.user-id-input, .post-content, .post-title{
+  display: block;
+
+  width: 200px;
+  height: 50px;
+
+  background-color: transparent;
+  border: none;
+  border: 1px white solid;
+  border-radius: 8px;
+  outline: none;
+
+  color: #FFF;
+  font-size: 30px;
+  
+  margin-right: 10px;
+  padding-left: 29px;
+  margin-bottom: 10px;
+}
+
+.user-id-input {
+  margin-bottom: 20px;
+  height: 90px;
+
+  font-size: 50px;
+}
+
+.get-info-btn{
+  display: block;
+
+  width: 200px;
+  height: 50px;
+
+  background-color: #417119;
+}
+
+.get-info-btn:hover {
+  background-color: #084a49;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+
+.post-content, .post-title{
+  width: 300px;
+}
+
+.create-btn{
+  background-color: #48175f;
 }
 /* -------------------------- /Task 1  -------------------------- */

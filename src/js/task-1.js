@@ -3,10 +3,16 @@
 //? Відобрази заголовки постів у списку на сторінці.
 //? Оброби помилку (catch), якщо сервер недоступний.
 
+//* Load library
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 //* Find elements
 const postsContainer = document.querySelector('.posts-container');
 const getPostBtn = document.querySelector('.get-post-btn');
 const postContainer = document.querySelector('.post-container');
+const idInput = document.querySelector('.user-id-input');
+const idBtn = document.querySelector('.get-info-btn');
 
 //* Add event listener & function
 const onGetPostClick = event => {
@@ -46,23 +52,55 @@ getPostBtn.addEventListener('click', onGetPostClick);
 //? Відобрази ім'я та email користувача в консоль.
 //? Якщо користувача немає (404), виведи повідомлення "Користувача не знайдено".
 
-const getUser = id => {
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
-
-            return response.json();
+const getUser = async id => {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+        if (!response.ok) {
+            throw new Error(response.status);
         }
-        )
-        .then(postData => {
-            console.log(postData.name);
-            console.log(postData.email);
-        })
-        .catch(err => {
-            console.log('Користувача не знайдено')
-        });
+
+        const postData = await response.json();
+        return {
+            name: postData.name,
+            email: postData.email
+        };
+    } catch (err) {
+        
+    }
 }
 
-getUser(1);
+idBtn.addEventListener('click', async event => {
+    if (idInput.value.trim() === '') {
+        return;
+    }
+
+    try {
+        const user = await getUser(idInput.value);
+
+        iziToast.info({
+            timeout: 7000,
+            overlay: true,
+            title: 'User Info:',
+            titleSize: '55',
+            message: `Name: ${user.name} | Email: ${user.email}`,
+            messageSize: '50',
+            position: 'center',
+            drag: false,
+        });
+
+        idInput.value = '';
+    } catch (err) {
+        iziToast.error({
+            timeout: 2000,
+            overlay: true,
+            title: 'Error',
+            titleSize: '55',
+            message: `User is not found!`,
+            messageSize: '50',
+            position: 'center',
+            drag: false,
+        });
+    }
+
+        idInput.value = '';
+})
