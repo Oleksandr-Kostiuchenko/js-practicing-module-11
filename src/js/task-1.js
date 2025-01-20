@@ -14,6 +14,12 @@ const postContainer = document.querySelector('.post-container');
 const idInput = document.querySelector('.user-id-input');
 const idBtn = document.querySelector('.get-info-btn');
 
+const titleInput = document.querySelector('.post-title-input');
+const contentInput = document.querySelector('.post-content-input');
+const createBtn = document.querySelector('.create-btn');
+let postsHTML = [];
+
+
 //* Add event listener & function
 const onGetPostClick = event => {
     fetch('https://jsonplaceholder.typicode.com/posts')
@@ -25,7 +31,7 @@ const onGetPostClick = event => {
             return response.json();
         }
     ).then(postData => {
-        const postsHTML = [];
+        postsHTML = [];
         console.log(postData);
 
         postData.forEach(post => {
@@ -65,7 +71,7 @@ const getUser = async id => {
             email: postData.email
         };
     } catch (err) {
-        
+        console.log(err);
     }
 }
 
@@ -103,4 +109,57 @@ idBtn.addEventListener('click', async event => {
     }
 
         idInput.value = '';
+})
+
+//TODO:  Створення нового поста (POST)
+//? Напиши функцію createPost(title, body), яка створює новий пост через POST-запит на https://jsonplaceholder.typicode.com/posts
+const createPost = (postInfo) => {
+    const fetchOptions = {
+    method: 'POST',
+    body: JSON.stringify(postInfo),
+    headers: {
+        'content-type': 'application/json',
+    },
+    };
+
+    return fetch('https://jsonplaceholder.typicode.com/posts', fetchOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            return response.json();
+        })
+        .then(newPost => {
+            postsHTML.push(
+                `
+            <div class="post-container">
+                <h2 class="post-title">${newPost.title}</h2>
+                <p class="post-content">${newPost.body}</p>
+                <p class="post-id">POST ID:${newPost.id}</p>
+            </div>
+            `
+            );
+
+            postsContainer.insertAdjacentHTML('beforeend', postsHTML[postsHTML.length - 1])
+        })
+}
+
+
+
+createBtn.addEventListener('click', event => {
+    if (titleInput.value.trim() === '' || contentInput.value.trim() === '') {
+        return;
+    }
+
+    createPost({
+    title: `${titleInput.value}`,
+    body: `${contentInput.value}`
+    })
+    .then(book => {
+        console.log(book);
+
+        titleInput.value = '';
+        contentInput.value = '';
+    })
 })

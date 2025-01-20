@@ -112,7 +112,7 @@ input{
 
   padding: 15px;
   width: 500px;
-  height: 200px;
+  /* height: 200px; */
 
   background-color: #bcb27f;
   border-radius: 8px;
@@ -162,7 +162,7 @@ input{
   margin-bottom: 50px;
 }
 
-.user-id-input, .post-content, .post-title{
+.user-id-input, .post-content-input, .post-title-input{
   display: block;
 
   width: 200px;
@@ -186,7 +186,7 @@ input{
   margin-bottom: 20px;
   height: 90px;
 
-  font-size: 50px;
+  font-size: 45px;
 }
 
 .get-info-btn{
@@ -204,12 +204,17 @@ input{
   transform: scale(1.05);
 }
 
-
-.post-content, .post-title{
+.post-content-input, .post-title-input{
   width: 300px;
 }
 
 .create-btn{
   background-color: #48175f;
+}
+
+.create-btn:hover {
+  background-color: #5c2985;
+  color: #ffffff;
+  transform: scale(1.05);
 }
 /* -------------------------- /Task 1  -------------------------- */
