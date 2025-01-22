@@ -145,8 +145,6 @@ const createPost = (postInfo) => {
         })
 }
 
-
-
 createBtn.addEventListener('click', event => {
     if (titleInput.value.trim() === '' || contentInput.value.trim() === '') {
         return;
@@ -163,3 +161,32 @@ createBtn.addEventListener('click', event => {
         contentInput.value = '';
     })
 })
+
+//TODO: Оновлення поста (PUT)
+//? Напиши функцію updatePost(id, newTitle, newBody), яка змінює існуючий пост (PUT-запит на https://jsonplaceholder.typicode.com/posts/{id}).
+
+const updatePost = (id, newTitle, newBody) => {
+    const updatedData = {
+        title: newTitle,
+        body: newBody
+    }
+
+    const fetchOptions = {
+        method: 'PUT',
+        body: JSON.stringify(updatedData)
+    }
+
+    return fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, fetchOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status)
+            }
+
+            return response.json();
+    })
+}
+
+updatePost(1, 'My title', 'My content')
+    .then(data =>{
+        console.log(data)
+    })
