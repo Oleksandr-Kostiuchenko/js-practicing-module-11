@@ -67,7 +67,7 @@ const onGetPostClick = event => {
 
 getPostBtn.addEventListener('click', onGetPostClick);
 loadBtn.addEventListener('click', event => {
-    if (page === 10) {
+    if (page === 50) {
         loadBtn.classList.add('is-hidden')
         return;
     }
