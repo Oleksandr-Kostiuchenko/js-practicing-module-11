@@ -1,5 +1,4 @@
 //TODO: Practice with mock api
-
 //! =============================== Отримання списку постів (GET) ===============================
 //* Load library
 import iziToast from "izitoast";
@@ -15,23 +14,43 @@ const idBtn = document.querySelector('.get-info-btn');
 const titleInput = document.querySelector('.post-title-input');
 const contentInput = document.querySelector('.post-content-input');
 const createBtn = document.querySelector('.create-btn');
+
+const updateTitleInput = document.querySelector('.post-title-update')
+const updateContentInput = document.querySelector('.post-content-update')
+const idInputUpdate = document.querySelector('.update-id-input');
+const updateBtn = document.querySelector('.update-btn')
+
+const loadBtn = document.querySelector('.load-btn');
+loadBtn.classList.add('is-hidden');
 let postsHTML = [];
+let page = 1;
+let actualSearch = [];
 
 //* Add event listener
 const onGetPostClick = event => {
-    fetch('https://67911779af8442fd7378ff4e.mockapi.io/UserPosts')
+    fetch(`https://67911779af8442fd7378ff4e.mockapi.io/UserPosts?limit=10&page=${page}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(response.status);
             }
 
+            postsContainer.innerHTML = '';
+            loadBtn.classList.add('is-hidden');
+
             return response.json();
         })
         .then(postsObj => {
-            postsHTML = [];
-
+            actualSearch = [];
+            
             postsObj.forEach(element => {
                 postsHTML.push(`
+                    <div class="post-container">
+                        <h2 class="post-title">${element.title} - ${element.author}</h2>
+                        <p class="post-content">${element.content}</p>
+                        <p class="post-id">POST ID:${element.id}</p>
+                    </div>
+                    `);
+                actualSearch.push(`
                     <div class="post-container">
                         <h2 class="post-title">${element.title} - ${element.author}</h2>
                         <p class="post-content">${element.content}</p>
@@ -41,10 +60,21 @@ const onGetPostClick = event => {
             });
 
             postsContainer.insertAdjacentHTML('beforeend', postsHTML.join(''));
+
+            loadBtn.classList.remove('is-hidden')
         })
 }
 
 getPostBtn.addEventListener('click', onGetPostClick);
+loadBtn.addEventListener('click', event => {
+    if (page === 10) {
+        loadBtn.classList.add('is-hidden')
+        return;
+    }
+    page++;
+    console.log(page);
+    onGetPostClick();
+})
 
 //! =============================== Отримання інформації про користувача за ID ===============================
 const getUser = async id => {
@@ -65,10 +95,6 @@ const getUser = async id => {
     }
 }
 
-
-const userInfo = await getUser(1);
-console.log(userInfo.name);
-
 idBtn.addEventListener('click', async event => {
     if (idInput.value.trim() === '') {
         return;
@@ -76,6 +102,7 @@ idBtn.addEventListener('click', async event => {
 
     try {
         const author = await getUser(idInput.value.trim());
+        idInput.value = '';
         
         iziToast.info({
             timeout: 7000,
@@ -105,23 +132,27 @@ idBtn.addEventListener('click', async event => {
 
 //! =============================== Створення нового поста (POST) ===============================
 const createPost = postInfo => {
-    const fetchOptions = {
-        method: 'POST',
-        body: JSON.stringify(postInfo),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-    return fetch(`https://67911779af8442fd7378ff4e.mockapi.io/UserPosts`, fetchOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(response.status)
+    try {
+        const fetchOptions = {
+            method: 'POST',
+            body: JSON.stringify(postInfo),
+            headers: {
+                'Content-Type': 'application/json'
             }
+        }
 
-            onGetPostClick();
-            return response.json();
-        })
+        return fetch(`https://67911779af8442fd7378ff4e.mockapi.io/UserPosts`, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status)
+                }
+
+                onGetPostClick();
+                return response.json();
+            })
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 createBtn.addEventListener('click', async event => {
@@ -129,12 +160,67 @@ createBtn.addEventListener('click', async event => {
         return;
     }
 
-    const newPost = {
-        author: 'Alex',
-        email: 'test@gmail.com',
-        title: `${titleInput.value}`,
-        content: `${contentInput.value}`
-    }
+    try {
+        const newPost = {
+            author: 'Alex',
+            email: 'test@gmail.com',
+            title: `${titleInput.value}`,
+            content: `${contentInput.value}`
+        }
 
-    const response = await createPost(newPost);
+        const response = await createPost(newPost);
+        titleInput.value = '';
+        contentInput.value = '';
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+//! =============================== Оновлення поста (PUT) ===============================
+//? Напиши функцію updatePost(id, newTitle, newBody), яка змінює існуючий пост (PUT-запит на https://jsonplaceholder.typicode.com/posts/{id}).
+
+const updatePost = (id, newTitle, newBody) => {
+    try {
+        const newPost = {
+            title: newTitle,
+            content: newBody
+        }
+
+        const fetchOptions = {
+            method: 'PUT',
+            body: JSON.stringify(newPost),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(`https://67911779af8442fd7378ff4e.mockapi.io/UserPosts/${id}`, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+
+                onGetPostClick();
+                return response.json();
+            })
+        
+    } catch(err){
+        console.log(err);
+    }
+}
+
+updateBtn.addEventListener('click', async event => {
+    if (idInputUpdate.value.trim() === '' || updateTitleInput.value.trim() === '' || updateContentInput.value.trim() === '') {
+        return
+    }
+    
+    try {
+        const response = await updatePost(idInputUpdate.value.trim(), updateTitleInput.value.trim(), updateContentInput.value.trim());
+        onGetPostClick();
+        idInputUpdate.value = '';
+        updateTitleInput.value = '';
+        updateContentInput.value = '';
+    } catch (err) {
+        console.log(err);
+    }
 })

@@ -67,16 +67,13 @@ a:hover{
   text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18, 2px 2px 17px rgba(206,89,55,0);
 }
 
-body{
-  background-color: #1a1717;
-}
-
 /* -------------------------- Task 1  -------------------------- */
+
 input{
   display: block;
 }
 
-.get-post-btn, .get-info-btn, .create-btn{
+.get-post-btn, .get-info-btn, .create-btn, .update-btn{
   width: 300px;
   height: 50px;
 
@@ -104,6 +101,7 @@ input{
   flex-direction: row;
   flex-wrap: wrap;
   gap: 25px;
+  justify-content: center;
 }
 
 .post-container{
@@ -112,9 +110,8 @@ input{
 
   padding: 15px;
   width: 500px;
-  /* height: 200px; */
 
-  background-color: #bcb27f;
+  box-shadow: 0px 0px 13px -4px rgba(0, 0, 0, 0.75);
   border-radius: 8px;
 }
 
@@ -170,11 +167,11 @@ input{
 
   background-color: transparent;
   border: none;
-  border: 1px white solid;
+  border: 1px rgb(0, 0, 0) solid;
   border-radius: 8px;
   outline: none;
 
-  color: #FFF;
+  color: #000000;
   font-size: 30px;
   
   margin-right: 10px;
@@ -216,5 +213,68 @@ input{
   background-color: #5c2985;
   color: #ffffff;
   transform: scale(1.05);
+}
+
+
+.post-title-update, .post-content-update, .update-id-input{
+  display: block;
+  
+  width: 300px;
+  height: 50px;
+  
+  background-color: transparent;
+  border: none;
+  border: 1px rgb(13, 12, 12) solid;
+  border-radius: 8px;
+  outline: none;
+  
+  color: #000000;
+  font-size: 30px;
+  
+  margin-right: 10px;
+  padding-left: 29px;
+  margin-bottom: 10px;
+}
+
+.update-btn {
+  display: block;
+
+  width: 300px;
+  height: 50px;
+
+  background-color: #7d6a0b;
+}
+
+.update-btn:hover {
+  background-color: #483d06;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.load-btn{
+  display: block;
+  width: 300px;
+  height: 50px;
+
+  font-size: 30px;
+  background-color: #489294;
+  border: none;
+  border-radius: 8px;
+  color: white;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+
+  transition:background-color 250ms linear, box-shadow 300ms linear;
+}
+
+.load-btn:hover{
+  background-color: #082c4a;
+  box-shadow: 0px 97px 173px 20px rgba(15, 28, 15, 1);
+}
+
+.load-btn.is-hidden{
+  display: none;
 }
 /* -------------------------- /Task 1  -------------------------- */
