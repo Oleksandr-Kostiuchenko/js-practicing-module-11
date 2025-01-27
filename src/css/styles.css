@@ -73,7 +73,7 @@ input{
   display: block;
 }
 
-.get-post-btn, .get-info-btn, .create-btn, .update-btn{
+.get-post-btn, .get-info-btn, .create-btn, .update-btn, .delete-btn{
   width: 300px;
   height: 50px;
 
@@ -179,7 +179,7 @@ input{
   margin-bottom: 10px;
 }
 
-.user-id-input {
+.user-id-input, .post-id-delete {
   margin-bottom: 20px;
   height: 90px;
 
@@ -216,7 +216,7 @@ input{
 }
 
 
-.post-title-update, .post-content-update, .update-id-input{
+.post-title-update, .post-content-update, .update-id-input, .post-id-delete{
   display: block;
   
   width: 300px;
@@ -276,5 +276,27 @@ input{
 
 .load-btn.is-hidden{
   display: none;
+}
+
+.delete-btn {
+  display: block;
+
+  width: 300px;
+  height: 50px;
+
+  background-color: #a03d3d;
+}
+
+.delete-btn:hover {
+  background-color: #7d2007;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.post-id-delete {
+  margin-bottom: 20px;
+  height: 90px;
+
+  font-size: 45px;
 }
 /* -------------------------- /Task 1  -------------------------- */

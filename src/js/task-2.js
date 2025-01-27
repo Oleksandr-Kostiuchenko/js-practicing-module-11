@@ -20,6 +20,9 @@ const updateContentInput = document.querySelector('.post-content-update')
 const idInputUpdate = document.querySelector('.update-id-input');
 const updateBtn = document.querySelector('.update-btn')
 
+const deleteInput = document.querySelector('.post-id-delete');
+const deleteBtn = document.querySelector('.delete-btn');
+
 const loadBtn = document.querySelector('.load-btn');
 loadBtn.classList.add('is-hidden');
 let postsHTML = [];
@@ -34,13 +37,14 @@ const onGetPostClick = event => {
                 throw new Error(response.status);
             }
 
-            postsContainer.innerHTML = '';
             loadBtn.classList.add('is-hidden');
 
             return response.json();
         })
         .then(postsObj => {
+            postsHTML = [];
             actualSearch = [];
+            postsContainer.innerHTML = '';
             
             postsObj.forEach(element => {
                 postsHTML.push(`
@@ -67,10 +71,7 @@ const onGetPostClick = event => {
 
 getPostBtn.addEventListener('click', onGetPostClick);
 loadBtn.addEventListener('click', event => {
-    if (page === 50) {
-        loadBtn.classList.add('is-hidden')
-        return;
-    }
+
     page++;
     console.log(page);
     onGetPostClick();
@@ -146,8 +147,7 @@ const createPost = postInfo => {
                 if (!response.ok) {
                     throw new Error(response.status)
                 }
-
-                onGetPostClick();
+                
                 return response.json();
             })
     } catch (err) {
@@ -171,6 +171,7 @@ createBtn.addEventListener('click', async event => {
         const response = await createPost(newPost);
         titleInput.value = '';
         contentInput.value = '';
+        onGetPostClick();
     } catch (err) {
         console.log(err);
     }
@@ -200,7 +201,6 @@ const updatePost = (id, newTitle, newBody) => {
                     throw new Error(response.status);
                 }
 
-                onGetPostClick();
                 return response.json();
             })
         
@@ -216,10 +216,46 @@ updateBtn.addEventListener('click', async event => {
     
     try {
         const response = await updatePost(idInputUpdate.value.trim(), updateTitleInput.value.trim(), updateContentInput.value.trim());
-        onGetPostClick();
         idInputUpdate.value = '';
         updateTitleInput.value = '';
         updateContentInput.value = '';
+        onGetPostClick();
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+//! =============================== Видалення поста (DELETE) ===============================
+//? Напиши функцію deletePost(id), яка видаляє пост (DELETE-запит на https://jsonplaceholder.typicode.com/posts/{id}).
+
+const deletPost = id => {
+    const fetchOptions = {
+        method: 'DELETE',
+    }
+
+    return fetch(`https://67911779af8442fd7378ff4e.mockapi.io/UserPosts/${id}/`, fetchOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+deleteBtn.addEventListener('click', async event => {
+    if (deleteInput.value.trim() === '') {
+        return;
+    }
+
+    try {
+        const response = await deletPost(deleteInput.value.trim());
+
+        deleteInput.value = '';
+        onGetPostClick();
     } catch (err) {
         console.log(err);
     }
